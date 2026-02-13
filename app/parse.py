@@ -1,5 +1,4 @@
 import csv
-import os
 from dataclasses import dataclass
 from typing import Generator
 
@@ -15,6 +14,7 @@ class Quote:
 
 
 URL = "https://quotes.toscrape.com/"
+
 
 def page_generator() -> Generator[BeautifulSoup, None, None]:
     page_number = 1
@@ -34,6 +34,7 @@ def page_generator() -> Generator[BeautifulSoup, None, None]:
 
             page_number += 1
 
+
 def parse_page(page_soup: BeautifulSoup) -> list[Quote]:
     quotes = []
 
@@ -41,6 +42,7 @@ def parse_page(page_soup: BeautifulSoup) -> list[Quote]:
         quotes.append(parse_single_quote(quote))
 
     return quotes
+
 
 def parse_single_quote(quote: Tag) -> Quote:
     text = quote.select_one(".text").text
@@ -73,7 +75,6 @@ def main(output_csv_path: str) -> None:
 
         for quote in quotes:
             writer.writerow([quote.text, quote.author, ",".join(quote.tags)])
-
 
 
 if __name__ == "__main__":
